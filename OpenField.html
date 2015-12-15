@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Azure ML call</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var apiKey = "3dThXC4gbm6HUYkBi8y4yfocYtoZwm43CM0cMJY22wEqL51eWo+T27comK3pKeLhexJn2qChvOtMBm/C5j8gNg==";
+            $.support.cors = true;
+
+            function packagecall(datain)
+            {
+                var predictData = {
+                    Inputs: {
+                        Input1: {
+                            'ColumnNames': [
+                                'Column0', 'permalink', 'name', 'category_list', 'market', 'funding_total_usd', 'status', 'country_code', 'state_code', 'region', 'city', 'funding_rounds', 'founded_quarter',
+                                'founded_year', 'first_funding_at', 'last_funding_at', 'angel_raised_sum', 'angel_num_investors', 'angel_min_funded_year', 'angel_max_funded_year', 'A_raised_sum',
+                                'A_num_investors', 'A_min_funded_year', 'A_max_funded_year', 'min_acquired', 'max_acquired', 'sum_acquired', 'min_acquired_year', 'max_acquired_year', 'angel_vs_acquired',
+                                'A_vs_acquired', 'good_exit'
+                            ],
+                            'Values': [
+                                [
+                                    "/organization/-fame", "#fame", "|Media|", "Media", "1e+07", "operating", "IND", "NA", "Mumbai", "Mumbai", "1", "NA", "NA", "2015-01-05T00:00:00", "2015-01-05T00:00:00", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "false"
+                                ]
+                            ]
+                        }
+                    }
+                }
+
+                return predictData;
+            }
+
+            $("#getml").click(function () {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    processData: false,
+                    beforeSend: function (req) { req.setRequestHeader('Authorization', 'Bearer ' + apiKey) },
+                    url: "https://ussouthcentral.services.azureml.net/workspaces/a600625d21f640eb87bfb3aa92053508/services/01d83a413265431b9c3ad8835ecf267e/execute?api-version=2.0&details=true",
+                    data: '{"Inputs":{"input1":{"ColumnNames":["invID","Company","dfvc","rounds","totalInvest","teamRank"],"Values":[["0","value","0","0","0","0"],["0","value","0","0","0","0"]]}},"GlobalParameters":{}}'
+                })
+                .success(function (successData) { debugger; })
+                .error(function (errData) { debugger; })
+            });
+
+            var bcAPIKey = 'Yn8lrILAhuy1Zx2X5tYnhdCeNq35rgUrACPT+PIKLTFAe//0c8Fo6icApHTeBs4Vt+7ehSgx1/jnVOFzqhjltg==';
+            $("#getmlbcpredict").click(function () {
+                var oData = packagecall('test');
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    processData: false,
+                    beforeSend: function (req) { req.setRequestHeader('Authorization', 'Bearer ' + bcAPIKey) },
+                    url: "https://ussouthcentral.services.azureml.net/workspaces/1e9859bf8e4d4861abf92463f2b0554a/services/3fd0a0f0bde04b8a88e2460d9533cf2f/execute?api-version=2.0&details=true",
+                    data: '{ "Inputs": { "input1": { "ColumnNames": [ "Column 0", "permalink", "name", "category_list", "market", "funding_total_usd", "status", "country_code", "state_code", "region", "city", "funding_rounds", "founded_quarter", "founded_year", "first_funding_at", "last_funding_at", "angel_raised_sum", "angel_num_investors", "angel_min_funded_year", "angel_max_funded_year", "A_raised_sum", "A_num_investors", "A_min_funded_year", "A_max_funded_year", "min_acquired", "max_acquired", "sum_acquired", "min_acquired_year", "max_acquired_year", "angel_vs_acquired", "A_vs_acquired", "good_exit" ], "Values": [ [ "1", "/organization/0xdata", "H2O.ai", "[Analytics]", "Analytics", "10600000", "operating", "USA", "CA", "SF Bay Area", "San Francisco", "2", "2011-Q1", "2011", "2013-01-03T00:00:00", "2014-07-19T00:00:00", "NA", "NA", "NA", "NA", "35600000", "4", "2014", "2014", "NA", "NA", "NA", "NA", "NA", "NA", "NA", false ], [ "1", "/organization/0xdata", "H2O.ai", "[Analytics]", "Analytics", "10600000", "operating", "USA", "CA", "SF Bay Area", "San Francisco", "2", "2011-Q1", "2011", "2013-01-03T00:00:00", "2014-07-19T00:00:00", "NA", "NA", "NA", "NA", "35600000", "4", "2014", "2014", "NA", "NA", "NA", "NA", "NA", "NA", "NA", false ] ] } }, "GlobalParameters": {} }'
+                })
+                .success(function (successData) { debugger; })
+                .error(function (errData) { debugger; })
+            });
+
+            $("#getcb").click(function () {
+                var cbname = $('#cbname').val();
+                if (cbname == '') { return; }
+                $.ajax({
+                    type: "GET",
+                    accepts: '*/*',
+                    url: "https://api.crunchbase.com/v/3/organizations/"+cbname+"?user_key=aaa39318c1303f9827a049a01501dd71"
+                })
+                .success(function (successData) {
+                    //debugger;
+                    $('#cbcompdump').val(JSON.stringify(successData));
+                })
+                .error(function (errData) { debugger; })
+            });
+
+            $("#getcomps").click(function () {
+                $.ajax({
+                    type: "GET",
+                    accepts: '*/*',
+                    url: "https://api.crunchbase.com/v/3/organizations?name=cloudflare&&&&user_key=aaa39318c1303f9827a049a01501dd71"
+                })
+                .success(function (successData) { debugger; })
+                .error(function (errData) { debugger; })
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div id="mltestdiv">
+        <button id="getml">Click me!</button>
+    </div>
+
+    <div id="mlbctestdiv">
+        <button id="getmlbcpredict">Click me for Binary Classifier Call</button>
+    </div>
+
+    <div id="getcbdiv">
+        <button id="getcb">Click for CB</button>
+        <textarea id="cbname" cols="20"></textarea>
+    </div>
+    <div id="getcompsdiv>">
+        <button id="getcomps">Click for Comps</button>
+    </div>
+    <div id="cbcompinfodiv">
+        <textarea id="cbcompdump" cols="80" rows="30"></textarea>
+    </div>
+</body>
+</html>
