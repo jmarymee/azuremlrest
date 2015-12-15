@@ -7,44 +7,81 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            var apiKey = "3dThXC4gbm6HUYkBi8y4yfocYtoZwm43CM0cMJY22wEqL51eWo+T27comK3pKeLhexJn2qChvOtMBm/C5j8gNg==";
+            var apiKey = "FvxxfBlKswpfFuu3stOx8EnFHX2+WKq2yjTv429rBhQ+np+U9cd64TNHE9QqDPUtQBml0jv+0qsvz+ZNfuHOKA==";
             $.support.cors = true;
 
             function packagecall(datain)
             {
                 var predictData = {
-                    Inputs: {
-                        Input1: {
-                            'ColumnNames': [
-                                'Column0', 'permalink', 'name', 'category_list', 'market', 'funding_total_usd', 'status', 'country_code', 'state_code', 'region', 'city', 'funding_rounds', 'founded_quarter',
-                                'founded_year', 'first_funding_at', 'last_funding_at', 'angel_raised_sum', 'angel_num_investors', 'angel_min_funded_year', 'angel_max_funded_year', 'A_raised_sum',
-                                'A_num_investors', 'A_min_funded_year', 'A_max_funded_year', 'min_acquired', 'max_acquired', 'sum_acquired', 'min_acquired_year', 'max_acquired_year', 'angel_vs_acquired',
-                                'A_vs_acquired', 'good_exit'
-                            ],
-                            'Values': [
-                                [
-                                    "/organization/-fame", "#fame", "|Media|", "Media", "1e+07", "operating", "IND", "NA", "Mumbai", "Mumbai", "1", "NA", "NA", "2015-01-05T00:00:00", "2015-01-05T00:00:00", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "false"
-                                ]
-                            ]
-                        }
-                    }
+  "Inputs": {
+    "input1": {
+      "ColumnNames": [
+        "VisitsLast7",
+        "VisitDurationLast7",
+        "VisitsLast30",
+        "VisitDurationLast30",
+        "AgeFirstVisitDay",
+        "NbVisitPerQuarter",
+        "NbVisitPerMonth",
+        "NbVisitPerWeek",
+        "VisitBetween_21_and_60mn",
+        "VisitMonday",
+        "VisitTuesday"
+      ],
+      "Values": [
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ]
+    }
+  },
+  "GlobalParameters": {}
                 }
+
 
                 return predictData;
             }
 
             $("#getml").click(function () {
+                var dataforcall = packagecall();
+                var datastring = JSON.stringify(dataforcall);
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
                     dataType: "json",
                     processData: false,
                     beforeSend: function (req) { req.setRequestHeader('Authorization', 'Bearer ' + apiKey) },
-                    url: "https://ussouthcentral.services.azureml.net/workspaces/a600625d21f640eb87bfb3aa92053508/services/01d83a413265431b9c3ad8835ecf267e/execute?api-version=2.0&details=true",
-                    data: '{"Inputs":{"input1":{"ColumnNames":["invID","Company","dfvc","rounds","totalInvest","teamRank"],"Values":[["0","value","0","0","0","0"],["0","value","0","0","0","0"]]}},"GlobalParameters":{}}'
+                    url: "https://asiasoutheast.services.azureml.net/workspaces/e5fedc52e630461cb2ccb69bec93b57a/services/abac8f9453294dc7babda631bff2ceb9/execute?api-version=2.0&details=true",
+                    data: datastring
                 })
-                .success(function (successData) { debugger; })
-                .error(function (errData) { debugger; })
+                .success(function (successData) { 
+                    debugger; 
+                    })
+                .error(function (errData) { 
+                    debugger; })
             });
 
             var bcAPIKey = 'Yn8lrILAhuy1Zx2X5tYnhdCeNq35rgUrACPT+PIKLTFAe//0c8Fo6icApHTeBs4Vt+7ehSgx1/jnVOFzqhjltg==';
