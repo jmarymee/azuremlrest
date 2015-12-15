@@ -9,6 +9,36 @@
         $(document).ready(function () {
             var apiKey = "FvxxfBlKswpfFuu3stOx8EnFHX2+WKq2yjTv429rBhQ+np+U9cd64TNHE9QqDPUtQBml0jv+0qsvz+ZNfuHOKA==";
             $.support.cors = true;
+            
+            function createObj() {
+                
+                var columns = ['VisitsLast7', 'VisitDurationLast7', 'VisitsLast30', 'VisitDurationLast30', 'AgeFirstVisitDay','NbVisitPerQuarter', 
+                        'NbVisitPerMonth', 'NbVisitPerWeek', 'VisitBetween_21_and_60mn', 'VisitMonday', 'VisitTuesday'];
+                        
+                var vals1 = [];
+                
+                var vals2 = [];
+                for (loop=0; loop<columns.length; loop++)
+                {
+                    vals2.push('0');
+                }
+                
+                vals1.push('12');
+                vals1.push('10');
+                vals1.push('5');
+                vals1.push('20');
+                vals1.push('2');
+                vals1.push('12');
+                vals1.push('10');
+                vals1.push('10');
+                vals1.push('12');
+                vals1.push('12');
+                vals1.push('5');
+                
+                var finalObj = { 'Inputs' : { 'input1' : { 'ColumnNames':columns, 'Values': [ vals1, vals2 ]  } }, 'GlobalParameters': {} };
+                
+                return finalObj;
+            }
 
             function packagecall(datain)
             {
@@ -66,7 +96,8 @@
             }
 
             $("#getml").click(function () {
-                var dataforcall = packagecall();
+                var dataOrig = packagecall();
+                var dataforcall = createObj();
                 var datastring = JSON.stringify(dataforcall);
                 $.ajax({
                     type: "POST",
