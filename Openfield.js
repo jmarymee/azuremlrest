@@ -4,9 +4,11 @@ $(document).ready(function () {
         var columns = ['VisitsLast7', 'VisitDurationLast7', 'VisitsLast30', 'VisitDurationLast30', 'AgeFirstVisitDay','NbVisitPerQuarter', 'NbVisitPerMonth', 'NbVisitPerWeek', 'VisitBetween_21_and_60mn', 'VisitMonday', 'VisitTuesday'];
         var option1 = ['3','15','12','20','20','12','10','10','12','12','5'];
         var option2 = ['0','5','5','3','4','5','1','1','0','4','2'];
+        var option3 = ['0','0','0','0','0','0','0','0','0','0','0'];
         
         $.support.cors = true;
         
+        //This prototype sets up an object that can emit a properly formatted Azure ML call
         function MLCall(colsArray)
         {
             this.columns = colsArray;
@@ -36,6 +38,10 @@ $(document).ready(function () {
                 case '2':
                     ml.vals1 = option2;
                     break;
+                    
+                case '3':
+                    ml.vals1 = option3;
+                    break;
                 
                 default:
                     ml.val1 = option1;
@@ -64,7 +70,9 @@ $(document).ready(function () {
         .success(function (successData) { 
             //debugger; 
             var mlvalues = successData.Results.output1.value.Values[0];
+            var columns = successData.Results.output1.value.ColumnNames;
             $('#cbcompdump').val(JSON.stringify(mlvalues));
+            $('#mlfieldlist').val(JSON.stringify(columns));
             })
         .error(function (errData) { 
             //debugger; 
@@ -98,19 +106,3 @@ $(document).ready(function () {
     });
 
 });
-
-            // var bcAPIKey = 'Yn8lrILAhuy1Zx2X5tYnhdCeNq35rgUrACPT+PIKLTFAe//0c8Fo6icApHTeBs4Vt+7ehSgx1/jnVOFzqhjltg==';
-            // $("#getmlbcpredict").click(function () {
-            //     var oData = packagecall('test');
-            //     $.ajax({
-            //         type: "POST",
-            //         contentType: "application/json",
-            //         dataType: "json",
-            //         processData: false,
-            //         beforeSend: function (req) { req.setRequestHeader('Authorization', 'Bearer ' + bcAPIKey) },
-            //         url: "https://ussouthcentral.services.azureml.net/workspaces/1e9859bf8e4d4861abf92463f2b0554a/services/3fd0a0f0bde04b8a88e2460d9533cf2f/execute?api-version=2.0&details=true",
-            //         data: '{ "Inputs": { "input1": { "ColumnNames": [ "Column 0", "permalink", "name", "category_list", "market", "funding_total_usd", "status", "country_code", "state_code", "region", "city", "funding_rounds", "founded_quarter", "founded_year", "first_funding_at", "last_funding_at", "angel_raised_sum", "angel_num_investors", "angel_min_funded_year", "angel_max_funded_year", "A_raised_sum", "A_num_investors", "A_min_funded_year", "A_max_funded_year", "min_acquired", "max_acquired", "sum_acquired", "min_acquired_year", "max_acquired_year", "angel_vs_acquired", "A_vs_acquired", "good_exit" ], "Values": [ [ "1", "/organization/0xdata", "H2O.ai", "[Analytics]", "Analytics", "10600000", "operating", "USA", "CA", "SF Bay Area", "San Francisco", "2", "2011-Q1", "2011", "2013-01-03T00:00:00", "2014-07-19T00:00:00", "NA", "NA", "NA", "NA", "35600000", "4", "2014", "2014", "NA", "NA", "NA", "NA", "NA", "NA", "NA", false ], [ "1", "/organization/0xdata", "H2O.ai", "[Analytics]", "Analytics", "10600000", "operating", "USA", "CA", "SF Bay Area", "San Francisco", "2", "2011-Q1", "2011", "2013-01-03T00:00:00", "2014-07-19T00:00:00", "NA", "NA", "NA", "NA", "35600000", "4", "2014", "2014", "NA", "NA", "NA", "NA", "NA", "NA", "NA", false ] ] } }, "GlobalParameters": {} }'
-            //     })
-            //     .success(function (successData) { debugger; })
-            //     .error(function (errData) { debugger; })
-            // });

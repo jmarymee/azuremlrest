@@ -4,33 +4,45 @@
 <head>
     <meta charset="utf-8" />
     <title>Azure ML call</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="OpenField.js"></script>
 </head>
 <body>
-    <div id="mltestdiv">
-        <button id="getml">Click me!</button>
+    <div class='container'>
+        <h1>The Problem 1 predictor<h1>
+        <div class=row>
+            <div class="col-sm-4">
+                <div id='selectlist'>
+                    <select id='myselect'>
+                        <option value='1'>High Probability Return</option>
+                        <option value='2'>Medium Probability Return</option>
+                        <option value='3'>Low Probability Return</option>
+                    </select>
+                    <div id="mltestdiv">
+                        <button id="getml">Predict customer return</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">                
+            </div>
+            <div class="col-sm-4">               
+            </div>
+        </div>
+        <div id="cbcompinfodiv">
+            <span>Probability of return:</span>
+            <textarea id="cbcompdump" cols="80" rows="1"></textarea>
+        </div>
+        <div id='mlfields'>
+            <p>Column Names</p>
+            <textarea id="mlfieldlist" cols="80" rows="4"></textarea>
+        </div> 
     </div>
+    
 
-    <div id="mlbctestdiv">
-        <button id="getmlbcpredict">Click me for Binary Classifier Call</button>
-    </div>
 
-    <div id="getcbdiv">
-        <button id="getcb">Click for CB</button>
-        <textarea id="cbname" cols="20"></textarea>
-    </div>
-    <div id="getcompsdiv>">
-        <button id="getcomps">Click for Comps</button>
-    </div>
-    <div id="cbcompinfodiv">
-        <textarea id="cbcompdump" cols="80" rows="30"></textarea>
-    </div>
-    <div id='selectlist'>
-        <select id='myselect'>
-            <option value='1'>One</option>
-            <option value='2'>Two</option>
-        </select>
-    </div>
+
 </body>
 </html>
