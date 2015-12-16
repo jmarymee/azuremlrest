@@ -1,6 +1,7 @@
 // JavaScript source code
 $(document).ready(function () {
         var apiKey = "FvxxfBlKswpfFuu3stOx8EnFHX2+WKq2yjTv429rBhQ+np+U9cd64TNHE9QqDPUtQBml0jv+0qsvz+ZNfuHOKA==";
+        var columns = ['VisitsLast7', 'VisitDurationLast7', 'VisitsLast30', 'VisitDurationLast30', 'AgeFirstVisitDay','NbVisitPerQuarter', 'NbVisitPerMonth', 'NbVisitPerWeek', 'VisitBetween_21_and_60mn', 'VisitMonday', 'VisitTuesday'];
         var option1 = ['3','15','12','20','20','12','10','10','12','12','5'];
         var option2 = ['0','5','5','3','4','5','1','1','0','4','2'];
         
@@ -22,13 +23,8 @@ $(document).ready(function () {
 
     
         //used to populate the data required for this ML REST call
-        function createObj(option) {                
+        function createObj(option) {
             
-            //This may change depending on whether the features used for the model change or not.
-            var columns = ['VisitsLast7', 'VisitDurationLast7', 'VisitsLast30', 'VisitDurationLast30', 'AgeFirstVisitDay','NbVisitPerQuarter', 
-                    'NbVisitPerMonth', 'NbVisitPerWeek', 'VisitBetween_21_and_60mn', 'VisitMonday', 'VisitTuesday'];
-                    
-           debugger;
             var ml = new MLCall(columns);
             ml.init();
             
@@ -52,12 +48,10 @@ $(document).ready(function () {
     }
     
     $("#getml").click(function () {
-        debugger;
         var opt = $('#myselect').val();
         var dataforcall = createObj(opt);
         var datastring = JSON.stringify(dataforcall);
         
-        //var datastring = $('#myselect').val();
         $.ajax({
             type: "POST",
             contentType: "application/json",
@@ -68,13 +62,14 @@ $(document).ready(function () {
             data: datastring
         })
         .success(function (successData) { 
-            debugger; 
-            var columns
+            //debugger; 
             var mlvalues = successData.Results.output1.value.Values[0];
-            $('#cbcompdump').val(JSON.stringify(successData));
+            $('#cbcompdump').val(JSON.stringify(mlvalues));
             })
         .error(function (errData) { 
-            debugger; })
+            //debugger; 
+             $('#cbcompdump').val(JSON.stringify(errData));
+            })
     });
     
     $("#getcb").click(function () {
